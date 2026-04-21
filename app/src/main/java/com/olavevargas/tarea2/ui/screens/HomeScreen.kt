@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.olavevargas.tarea2.viewmodel.EventViewModel
+import androidx.compose.ui.res.stringResource
+import com.olavevargas.tarea2.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -21,7 +23,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("EventMaster")}
+                title = { Text(stringResource(R.string.home_title)) }
             )
         },
         floatingActionButton = {

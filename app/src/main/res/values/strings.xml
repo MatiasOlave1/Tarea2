@@ -1,3 +1,16 @@
 <resources>
-    <string name="Tarea2">Tarea2</string>
+
+    <string name="app_name">EventMaster</string>
+
+    <string name="home_title">EventMaster</string>
+    <string name="detail_title">Eventos</string>
+    <string name="add_event_title">Agregar Evento</string>
+
+    <string name="title_label">Título</string>
+    <string name="description_label">Descripción</string>
+    <string name="save_button">Guardar</string>
+    <string name="error_empty_fields">Todos los campos son obligatorios</string>
+
+    <string name="no_events">No hay eventos para esta categoría</string>
+
 </resources>
