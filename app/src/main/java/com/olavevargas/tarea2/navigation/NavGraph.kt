@@ -5,6 +5,7 @@ import androidx.navigation.compose.*
 import com.olavevargas.tarea2.ui.screens.HomeScreen
 import com.olavevargas.tarea2.viewmodel.EventViewModel
 import com.olavevargas.tarea2.ui.screens.DetailScreen
+import com.olavevargas.tarea2.ui.screens.AddEventScreen
 
 @Composable
 fun NavGraph(viewModel: EventViewModel) {
@@ -36,7 +37,14 @@ fun NavGraph(viewModel: EventViewModel) {
                 navController = navController
             )
         }
+        composable("addEvent") {
+            AddEventScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
     }
 }
+
 
 

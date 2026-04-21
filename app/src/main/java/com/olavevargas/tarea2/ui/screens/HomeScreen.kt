@@ -23,6 +23,15 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("EventMaster")}
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate("addEvent")
+                }
+            ) {
+                Text("+")
+            }
         }
 
     ) { padding ->
