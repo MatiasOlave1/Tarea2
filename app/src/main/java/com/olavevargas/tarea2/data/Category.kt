@@ -1,6 +1,6 @@
 package com.olavevargas.tarea2.data
 
-data class categoria(
+data class Category(
     val id: Int,
     val name: String
 )
