@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.plugin.serialization)
 }
 
 android {
@@ -40,6 +41,7 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.9.7"
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -55,4 +57,10 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    implementation(libs.navigation.compose)
+    implementation("androidx.navigation:navigation-fragment:${nav_version}")
+    implementation("androidx.navigation:navigation-ui:${nav_version}")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:${nav_version}")
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    implementation(libs.kotlin.serialization)
 }
