@@ -11,6 +11,8 @@ import androidx.navigation.NavController
 import com.olavevargas.tarea2.viewmodel.EventViewModel
 import androidx.compose.ui.res.stringResource
 import com.olavevargas.tarea2.R
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -23,7 +25,16 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.home_title)) }
+                title = { Text(stringResource(R.string.home_title)) },
+                actions = {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_main_activity),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .padding(end = 16.dp)
+                    )
+                }
             )
         },
         floatingActionButton = {
