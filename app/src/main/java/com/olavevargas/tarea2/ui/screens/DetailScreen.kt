@@ -3,8 +3,6 @@ package com.olavevargas.tarea2.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,16 +12,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.olavevargas.tarea2.viewmodel.EventViewModel
 import com.olavevargas.tarea2.R
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    categoryId: Int,
+    idCategoria: Int,
     viewModel: EventViewModel,
     navController: NavController
 ) {
 
-    val events = viewModel.getEventsByCategory(categoryId)
+    val eventos = viewModel.getEventsByCategory(idCategoria)
 
     Scaffold(
         topBar = {
@@ -41,7 +41,7 @@ fun DetailScreen(
         }
     ) { padding ->
 
-        if (events.isEmpty()) {
+        if (eventos.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -56,15 +56,18 @@ fun DetailScreen(
                     .padding(padding)
                     .padding(16.dp)
             ) {
-                items(events) { event ->
+                items(eventos) { evento ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 10.dp)
+                            .padding(bottom = 10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = event.title, style = MaterialTheme.typography.titleMedium)
-                            Text(text = event.description)
+                            Text(text = evento.titulo, style = MaterialTheme.typography.titleMedium)
+                            Text(text = evento.descripcion)
                         }
                     }
                 }

@@ -14,25 +14,25 @@ fun NavGraph(viewModel: EventViewModel) {
 
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = "inicio"
 
     ) {
 
 
-        composable("home") {
+        composable("inicio") {
             HomeScreen(
                 viewModel = viewModel,
                 navController = navController
             )
         }
-        composable("detail/{categoryId}") { backStackEntry ->
+        composable("detail/{idCategoria}") { backStackEntry ->
 
-            val categoryId = backStackEntry.arguments
-                ?.getString("categoryId")
+            val idCategoria = backStackEntry.arguments
+                ?.getString("idCategoria")
                 ?.toIntOrNull() ?: 0
 
             DetailScreen(
-                categoryId = categoryId,
+                idCategoria = idCategoria,
                 viewModel = viewModel,
                 navController = navController
             )
@@ -45,6 +45,3 @@ fun NavGraph(viewModel: EventViewModel) {
         }
     }
 }
-
-
-

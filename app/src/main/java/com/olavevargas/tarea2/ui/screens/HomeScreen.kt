@@ -20,7 +20,7 @@ fun HomeScreen(
     navController: NavController
 )  {
 
-    val cats = viewModel.categorias
+    val listaCategorias = viewModel.categorias
 
     Scaffold(
         topBar = {
@@ -54,12 +54,12 @@ fun HomeScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            items(cats){ category ->
+            items(listaCategorias){ categoria ->
 
                 CategoryItem(
-                    name = category.name,
+                    nombre = categoria.nombre,
                     onClick = {
-                        navController.navigate("detail/${category.id}")
+                        navController.navigate("detail/${categoria.id}")
                     }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -69,7 +69,7 @@ fun HomeScreen(
 }
 @Composable
 fun CategoryItem(
-    name: String,
+    nombre: String,
     onClick: () -> Unit
 ) {
     Card(
@@ -81,7 +81,7 @@ fun CategoryItem(
         )
     ) {
         Text(
-            text = name,
+            text = nombre,
             modifier = Modifier.padding(20.dp),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer

@@ -1,6 +1,8 @@
 package com.olavevargas.tarea2.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,15 +19,23 @@ fun AddEventScreen(
     navController: NavController,
 ) {
 
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var categoryName by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf("") }
+    var titulo by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
+    var nombreCategoria by remember { mutableStateOf("") }
+    var mensajeError by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.add_event_title)) }
+                title = { Text(stringResource(R.string.add_event_title)) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Regresar"
+                        )
+                    }
+                }
             )
         }
     ) { padding ->
@@ -37,8 +47,8 @@ fun AddEventScreen(
         ) {
 
             OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
+                value = titulo,
+                onValueChange = { titulo = it },
                 label = { Text(stringResource(R.string.title_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -46,8 +56,8 @@ fun AddEventScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
+                value = descripcion,
+                onValueChange = { descripcion = it },
                 label = { Text(stringResource(R.string.description_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -55,8 +65,8 @@ fun AddEventScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             OutlinedTextField(
-                value = categoryName,
-                onValueChange = { categoryName = it },
+                value = nombreCategoria,
+                onValueChange = { nombreCategoria = it },
                 label = { Text(stringResource(R.string.category_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -64,9 +74,9 @@ fun AddEventScreen(
             Spacer(modifier = Modifier.height(10.dp))
 
             // error
-            if (error.isNotEmpty()) {
+            if (mensajeError.isNotEmpty()) {
                 Text(
-                    text = error,
+                    text = mensajeError,
                     color = MaterialTheme.colorScheme.error
                 )
             }
@@ -75,21 +85,25 @@ fun AddEventScreen(
 
             Button(
                 onClick = {
-                    if (title.isBlank() || description.isBlank() || categoryName.isBlank()) {
-                        error = "Todos los campos son obligatorios"
+                    if (titulo.isBlank() || descripcion.isBlank() || nombreCategoria.isBlank()) {
+                        mensajeError = "Todos los campos son obligatorios"
                     } else {
                         // Se crea u obtiene la categoría personalizada
-                        val catId = viewModel.addCategory(categoryName)
+                        val idCategoria = viewModel.addCategory(nombreCategoria)
                         
                         viewModel.addEvent(
-                            title,
-                            description,
-                            catId
+                            titulo,
+                            descripcion,
+                            idCategoria
                         )
                         navController.popBackStack()
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                )
             ) {
                 Text(stringResource(R.string.save_button))
             }

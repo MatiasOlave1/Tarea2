@@ -15,32 +15,32 @@ class EventViewModel : ViewModel(){
         private set
 
 
-    fun addCategory(name: String): Int {
-        val existingCategory = categorias.find { it.name.equals(name, ignoreCase = true) }
-        if (existingCategory != null) {
-            return existingCategory.id
+    fun addCategory(nombre: String): Int {
+        val categoriaExistente = categorias.find { it.nombre.equals(nombre, ignoreCase = true) }
+        if (categoriaExistente != null) {
+            return categoriaExistente.id
         }
-        val newId = (categorias.maxOfOrNull { it.id } ?: 0) + 1
-        val newCategory = Category(
-            id = newId,
-            name = name
+        val nuevoId = (categorias.maxOfOrNull { it.id } ?: 0) + 1
+        val nuevaCategoria = Category(
+            id = nuevoId,
+            nombre = nombre
         )
-        categorias = categorias + newCategory
-        return newId
+        categorias = categorias + nuevaCategoria
+        return nuevoId
     }
 
-    fun addEvent(title: String, description: String, categoryId: Int) {
-        val newEvent = Event(
+    fun addEvent(titulo: String, descripcion: String, idCategoria: Int) {
+        val nuevoEvento = Event(
             id = eventos.size + 1,
-            title = title,
-            description = description,
-            catId = categoryId
+            titulo = titulo,
+            descripcion = descripcion,
+            idCategoria = idCategoria
         )
-        eventos = eventos + newEvent
+        eventos = eventos + nuevoEvento
     }
     // se filtra el evento por categoria
-    fun getEventsByCategory(categoryId: Int): List<Event> {
-        return eventos.filter { it.catId == categoryId }
+    fun getEventsByCategory(idCategoria: Int): List<Event> {
+        return eventos.filter { it.idCategoria == idCategoria }
     }
 
     // se obtiene evento por el id
