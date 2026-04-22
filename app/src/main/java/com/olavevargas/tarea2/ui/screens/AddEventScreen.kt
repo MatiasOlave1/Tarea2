@@ -14,11 +14,12 @@ import com.olavevargas.tarea2.R
 @Composable
 fun AddEventScreen(
     viewModel: EventViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
 
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    var categoryName by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
 
     Scaffold(
@@ -38,7 +39,7 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Título") },
+                label = { Text(stringResource(R.string.title_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -47,7 +48,16 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
-                label = { Text("Descripción") },
+                label = { Text(stringResource(R.string.description_label)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            OutlinedTextField(
+                value = categoryName,
+                onValueChange = { categoryName = it },
+                label = { Text(stringResource(R.string.category_label)) },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -65,20 +75,23 @@ fun AddEventScreen(
 
             Button(
                 onClick = {
-                    if (title.isBlank() || description.isBlank()) {
+                    if (title.isBlank() || description.isBlank() || categoryName.isBlank()) {
                         error = "Todos los campos son obligatorios"
                     } else {
+                        // Se crea u obtiene la categoría personalizada
+                        val catId = viewModel.addCategory(categoryName)
+                        
                         viewModel.addEvent(
                             title,
                             description,
-                            1 // 🔥 lo dejamos fijo para simplificar
+                            catId
                         )
                         navController.popBackStack()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Guardar")
+                Text(stringResource(R.string.save_button))
             }
         }
     }

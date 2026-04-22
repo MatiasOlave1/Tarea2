@@ -15,12 +15,17 @@ class EventViewModel : ViewModel(){
         private set
 
 
-    fun addCategory(name: String) {
+    fun addCategory(name: String): Int {
+        val existing = categorias.find { it.name.equals(name, ignoreCase = true) }
+        if (existing != null) return existing.id
+
+        val newId = if (categorias.isEmpty()) 1 else categorias.maxOf { it.id } + 1
         val newCategory = Category(
-            id = categorias.size + 1,
+            id = newId,
             name = name
         )
         categorias = categorias + newCategory
+        return newId
     }
 
     fun addEvent(title: String, description: String, categoryId: Int) {

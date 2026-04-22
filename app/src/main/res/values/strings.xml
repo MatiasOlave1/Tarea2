@@ -8,6 +8,7 @@
 
     <string name="title_label">Título</string>
     <string name="description_label">Descripción</string>
+    <string name="category_label">Categoría</string>
     <string name="save_button">Guardar</string>
     <string name="error_empty_fields">Todos los campos son obligatorios</string>
 
