@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import com.olavevargas.tarea4.ui.model.EventViewModel
 import com.olavevargas.tarea4.ui.navigation.Home
 import kotlinx.coroutines.launch
+import com.olavevargas.tarea4.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
