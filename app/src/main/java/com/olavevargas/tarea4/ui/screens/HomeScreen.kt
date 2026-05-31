@@ -14,6 +14,7 @@ import com.olavevargas.tarea4.ui.model.EventViewModel
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.Image
+import com.olavevargas.tarea4.R
 import com.olavevargas.tarea4.ui.navigation.AddEvent
 import com.olavevargas.tarea4.ui.navigation.Detail
 
@@ -29,7 +30,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.home_title)) },
+                    title = { Text(stringResource(R.string.home_title)) },
                 actions = {
                     Image(
                         painter = painterResource(id = R.drawable.logo_main_activity),
