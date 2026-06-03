@@ -17,6 +17,8 @@ import com.olavevargas.tarea4.ui.model.EventViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 
+import com.olavevargas.tarea4.ui.state.UiState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
@@ -25,8 +27,7 @@ fun DetailScreen(
     navController: NavController
 ) {
 
-    val eventsUiState by viewModel.eventsUiState.collectAsState()
-    val eventos = eventsUiState.filter { it.idCategoria == idCategoria }
+    val eventsState by viewModel.eventsUiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -44,35 +45,55 @@ fun DetailScreen(
         }
     ) { padding ->
 
-        if (eventos.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = stringResource(R.string.no_events))
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .padding(padding)
-                    .padding(16.dp)
-            ) {
-                items(eventos) { evento ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        )
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(text = evento.titulo, style = MaterialTheme.typography.titleMedium)
-                            Text(text = evento.descripcion)
+        Box(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
+            when (val state = eventsState) {
+                is UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                is UiState.Success -> {
+                    val eventos = state.data.filter { it.idCategoria == idCategoria }
+                    if (eventos.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = stringResource(R.string.no_events))
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(16.dp)
+                        ) {
+                            items(eventos) { evento ->
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 10.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                                    )
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Text(text = evento.titulo, style = MaterialTheme.typography.titleMedium)
+                                        Text(text = evento.descripcion)
+                                    }
+                                }
+                            }
                         }
                     }
+                }
+                is UiState.Error -> {
+                    Text(
+                        text = "Error: ${state.message}",
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
             }
         }
