@@ -1,11 +1,10 @@
-package com.olavevargas.tarea4.di
+package com.olavevargas.tarea3.di
 
-import com.olavevargas.tarea4.data.local.dao.CategoryDao
-import com.olavevargas.tarea4.data.local.dao.EventDao
-import com.olavevargas.tarea4.data.repository.Event.EventRepository
-import com.olavevargas.tarea4.data.repository.Event.EventRepositoryImpl
-import com.olavevargas.tarea4.data.repository.category.CategoryRepository
-import com.olavevargas.tarea4.data.repository.category.CategoryRepositoryImpl
+import com.olavevargas.tarea3.data.remote.EventMasterApi
+import com.olavevargas.tarea3.data.remote.repository.CategoryRemoteRepositoryImpl
+import com.olavevargas.tarea3.data.remote.repository.EventRemoteRepositoryImpl
+import com.olavevargas.tarea3.data.repository.Event.EventRepository
+import com.olavevargas.tarea3.data.repository.category.CategoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,18 +18,18 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideEventRepository(
-        eventDao: EventDao
+        api: EventMasterApi
     ): EventRepository {
 
-        return EventRepositoryImpl(eventDao)
+        return EventRemoteRepositoryImpl(api)
     }
 
     @Provides
     @Singleton
     fun provideCategoryRepository(
-        categoryDao: CategoryDao
+        api: EventMasterApi
     ): CategoryRepository {
 
-        return CategoryRepositoryImpl(categoryDao)
+        return CategoryRemoteRepositoryImpl(api)
     }
 }

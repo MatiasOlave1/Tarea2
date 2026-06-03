@@ -1,10 +1,8 @@
-package com.olavevargas.tarea4.di
+package com.olavevargas.tarea3.di
 
 import android.content.Context
 import androidx.room.Room
-import com.olavevargas.tarea4.data.local.AppDatabase
-import com.olavevargas.tarea4.data.local.dao.CategoryDao
-import com.olavevargas.tarea4.data.local.dao.EventDao
+import com.olavevargas.tarea3.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,20 +26,6 @@ object DatabaseModule {
             "eventmaster_db"
         ).build()
     }
-
-    @Provides
-    fun provideEventDao(
-        database: AppDatabase
-    ): EventDao {
-
-        return database.eventDao()
-    }
-
-    @Provides
-    fun provideCategoryDao(
-        database: AppDatabase
-    ): CategoryDao {
-
-        return database.categoryDao()
-    }
+    
+    // DAOs removed as we migrated to Remote Repositories
 }

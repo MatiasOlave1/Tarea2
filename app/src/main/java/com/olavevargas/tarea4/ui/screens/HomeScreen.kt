@@ -18,6 +18,9 @@ import com.olavevargas.tarea4.R
 import com.olavevargas.tarea4.ui.navigation.AddEvent
 import com.olavevargas.tarea4.ui.navigation.Detail
 
+import androidx.compose.ui.Alignment
+import com.olavevargas.tarea3.ui.state.UiState
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -25,7 +28,7 @@ fun HomeScreen(
     navController: NavController
 )  {
 
-    val listaCategorias by viewModel.categoriesUiState.collectAsState()
+    val categoriesState by viewModel.categoriesUiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -54,21 +57,42 @@ fun HomeScreen(
 
     ) { padding ->
 
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .fillMaxSize()
         ) {
-            items(listaCategorias){ categoria ->
+            when (val state = categoriesState) {
+                is UiState.Loading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                is UiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        items(state.data){ categoria ->
 
-                CategoryItem(
-                    nombre = categoria.nombre,
-                    onClick = {
+                            CategoryItem(
+                                nombre = categoria.nombre,
+                                onClick = {
 
-                        navController.navigate(Detail(categoria.id))
+                                    navController.navigate(Detail(categoria.id))
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
                     }
-                )
-                Spacer(modifier = Modifier.height(10.dp))
+                }
+                is UiState.Error -> {
+                    Text(
+                        text = "Error: ${state.message}",
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.olavevargas.tarea4.ui.screens
+package com.olavevargas.tarea3.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.olavevargas.tarea4.ui.model.EventViewModel
-import com.olavevargas.tarea4.ui.navigation.Home
+import com.olavevargas.tarea3.ui.model.EventViewModel
+import com.olavevargas.tarea3.ui.Components.StyledTextField
+import com.olavevargas.tarea3.R
+import com.olavevargas.tarea3.ui.navigation.Home
 import kotlinx.coroutines.launch
-import com.olavevargas.tarea4.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,6 +26,7 @@ fun AddEventScreen(
     var descripcion by remember { mutableStateOf("") }
     var nombreCategoria by remember { mutableStateOf("") }
     var mensajeError by remember { mutableStateOf("") }
+    var isSaving by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
@@ -49,29 +51,29 @@ fun AddEventScreen(
                 .padding(16.dp)
         ) {
 
-            OutlinedTextField(
+            StyledTextField(
                 value = titulo,
                 onValueChange = { titulo = it },
-                label = { Text(stringResource(R.string.title_label)) },
-                modifier = Modifier.fillMaxWidth()
+                label = stringResource(R.string.title_label),
+                enabled = !isSaving
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            OutlinedTextField(
+            StyledTextField(
                 value = descripcion,
                 onValueChange = { descripcion = it },
-                label = { Text(stringResource(R.string.description_label)) },
-                modifier = Modifier.fillMaxWidth()
+                label = stringResource(R.string.description_label),
+                enabled = !isSaving
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            OutlinedTextField(
+            StyledTextField(
                 value = nombreCategoria,
                 onValueChange = { nombreCategoria = it },
-                label = { Text(stringResource(R.string.category_label)) },
-                modifier = Modifier.fillMaxWidth()
+                label = stringResource(R.string.category_label),
+                enabled = !isSaving
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -86,33 +88,37 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = {
-                    if (titulo.isBlank() || descripcion.isBlank() || nombreCategoria.isBlank()) {
-                        mensajeError = "Todos los campos son obligatorios"
-                    } else {
-                        coroutineScope.launch {
-                            // Se crea u obtiene la categoría personalizada
-                            val idCategoria = viewModel.addCategory(nombreCategoria)
-
-                            viewModel.addEvent(
-                                titulo,
-                                descripcion,
-                                idCategoria
-                            )
-                            navController.navigate(Home) {
-                                popUpTo(Home) { inclusive = true }
+            if (isSaving) {
+                CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+            } else {
+                Button(
+                    onClick = {
+                        if (titulo.isBlank() || descripcion.isBlank() || nombreCategoria.isBlank()) {
+                            mensajeError = "Todos los campos son obligatorios"
+                        } else {
+                            coroutineScope.launch {
+                                isSaving = true
+                                try {
+                                    val idCategoria = viewModel.addCategory(nombreCategoria)
+                                    viewModel.addEvent(titulo, descripcion, idCategoria)
+                                    navController.navigate(Home) {
+                                        popUpTo(Home) { inclusive = true }
+                                    }
+                                } catch (e: Exception) {
+                                    mensajeError = "Error al guardar: ${e.message}"
+                                    isSaving = false
+                                }
                             }
                         }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            ) {
-                Text(stringResource(R.string.save_button))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                ) {
+                    Text(stringResource(R.string.save_button))
+                }
             }
         }
     }

@@ -63,7 +63,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun Tarea2Theme(
+fun EventMasterTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,

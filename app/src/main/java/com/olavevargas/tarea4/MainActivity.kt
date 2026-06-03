@@ -1,13 +1,13 @@
-package com.olavevargas.tarea4
+package com.olavevargas.tarea3
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.olavevargas.tarea4.ui.model.CategoryViewModel
-import com.olavevargas.tarea4.ui.model.EventViewModel
-import com.olavevargas.tarea4.ui.navigation.Navigation
-import com.olavevargas.tarea4.ui.theme.Tarea2Theme
+import com.olavevargas.tarea3.ui.model.CategoryViewModel
+import com.olavevargas.tarea3.ui.model.EventViewModel
+import com.olavevargas.tarea3.ui.navigation.Navigation
+import com.olavevargas.tarea3.ui.theme.EventMasterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            Tarea2Theme {
+            EventMasterTheme {
 
                 val eventViewModel: EventViewModel =
                     hiltViewModel()
